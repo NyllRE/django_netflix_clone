@@ -38,11 +38,10 @@ class ProfileCreate(View):
     def post(self,request,*args, **kwargs):
         form=ProfileForm(request.POST or None)
 
-       
+
         if form.is_valid():
             print(form.cleaned_data)
-            profile = Profile.objects.create(**form.cleaned_data)
-            if profile:
+            if profile := Profile.objects.create(**form.cleaned_data):
                 request.user.profiles.add(profile)
                 return redirect(f'/watch/{profile.uuid}')
 
